@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOs", "BOs\BOs.csproj", "{DA6FD787-3F40-46B7-8C44-D7F8F93BBBE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{23E3F061-96C6-47B6-A40D-7A52FA217A4F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA6FD787-3F40-46B7-8C44-D7F8F93BBBE9} = {DA6FD787-3F40-46B7-8C44-D7F8F93BBBE9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
