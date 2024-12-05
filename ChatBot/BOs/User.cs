@@ -19,6 +19,7 @@ namespace BOs
         public string Address { get; set; }
         public string Avatar { get; set; }
         public int RoleId { get; set; }
+
         public Role Role { get; set; }
     }
 }
