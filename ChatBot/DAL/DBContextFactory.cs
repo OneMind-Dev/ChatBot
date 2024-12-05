@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace DAL
+namespace DAOs
 {
     internal class DBContextFactory : IDesignTimeDbContextFactory<ChatBotDBcontext>
     {

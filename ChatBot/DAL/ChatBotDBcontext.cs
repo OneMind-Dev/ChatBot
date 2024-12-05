@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace DAL
+namespace DAOs
 {
     public class ChatBotDBcontext : DbContext
     {
@@ -10,6 +10,8 @@ namespace DAL
         public DbSet<Role> Roles { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<Message> Messages { get; set; }
+
+        public ChatBotDBcontext() { }
 
         public ChatBotDBcontext(DbContextOptions<ChatBotDBcontext> options) : base(options)
         {
