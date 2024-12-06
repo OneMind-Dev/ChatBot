@@ -11,6 +11,7 @@ using System.Net.Http.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Services.Implement
 {
@@ -102,24 +103,25 @@ namespace Services.Implement
         private HttpClient _client = new HttpClient();
 
         /// <summary>
-        /// History message of a conversation (for store purpose)
+        /// History message of a conversation
         /// </summary>
-        public List<Message> Messages { get; set; } = new List<Message>();
+        public List<Message> History { get; set; } = new List<Message>();
         public string Model { set; get; } = "gemini-1.5-flash";
         public string ApiKey { set; get; }
 
         public ChatBotCore()
         {
-            //
             ApiKey ??= Environment.GetEnvironmentVariable("GEMINI_API_KEY", EnvironmentVariableTarget.User);
             Console.WriteLine("API Key: " + ApiKey);
         }
 
-        public void SetHistory(List<Message> messages)
-        {
-            Messages = messages;
-        }
-
+        /// <summary>
+        /// Send a message to the ChatBot API
+        /// </summary>
+        /// <param name="newMessange">newMessage will be used as a new prompt that user enter</param>
+        /// <returns>A string reprensent model response to user's prompt</returns>
+        /// <exception cref="ArgumentNullException">API Key or model is missing</exception>
+        /// <exception cref="Exception">Gemini send back error</exception>
         public async Task<string> SendMessageAsync(string newMessange)
         {
             if (ApiKey == null)
@@ -135,7 +137,7 @@ namespace Services.Implement
             // Add history to the request 
             List<ChatContent> _chatContents = new List<ChatContent>();
 
-            foreach (var message in Messages)
+            foreach (var message in History)
             {
                 if (message.UserResquest != null)
                 {
@@ -166,7 +168,7 @@ namespace Services.Implement
             var content = new StringContent(JsonSerializer.Serialize(new GeminiRequest { contents = _chatContents }), Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync(uri, content);
-            Console.WriteLine("AI Http status: " + response.StatusCode);    
+            Console.WriteLine("AI Http status: " + response.StatusCode);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -181,15 +183,92 @@ namespace Services.Implement
 
             var modelResponse = geminiResponse.candidates[0].content.parts[0].text;
 
-            // ModelResponse will exist at this point, save it (also add conversationID of the old message to the new one if exist  )
-            Messages.Add(new Message
+            // ModelResponse will exist at this point, save it (also add conversationID of the old message (if exist) to the new one)
+            History.Add(new Message
             {
-                ConservationId = Messages.Count > 0 ? Messages.First().ConservationId : 0,
+                ConservationId = History.IsNullOrEmpty() ? 0 : History.First().ConservationId,
                 UserResquest = newMessange,
                 ModelResponse = modelResponse
             });
 
             return modelResponse;
+        }
+
+
+        /// <summary>
+        /// Send a message to the ChatBot API
+        /// </summary>
+        /// <param name="newMessange"> <paramref name="newMessange"/>.UserRequest will be used as a new prompt that user enter</param>
+        /// <returns>Origin <paramref name="newMessange"/> that added modelResponse into it</returns>
+        /// <exception cref="ArgumentNullException">API Key or model is missing</exception>
+        /// <exception cref="Exception">Gemini send back error</exception>
+        public async Task<Message> SendMessageAsync(Message newMessange)
+        {
+            if (ApiKey == null)
+            {
+                throw new ArgumentNullException("API Key is not set");
+            }
+
+            if (Model == null)
+            {
+                throw new ArgumentNullException("Model is not set");
+            }
+
+            // Add history to the request 
+            List<ChatContent> _chatContents = new List<ChatContent>();
+
+            foreach (var message in History)
+            {
+                if (message.UserResquest != null)
+                {
+                    _chatContents.Add(new ChatContent
+                    {
+                        role = "user",
+                        parts = new List<ChatContent.Part> { new ChatContent.Part { text = message.UserResquest } }
+                    });
+                }
+                if (message.ModelResponse != null)
+                {
+                    _chatContents.Add(new ChatContent
+                    {
+                        role = "model",
+                        parts = new List<ChatContent.Part>([new ChatContent.Part { text = message.ModelResponse }])
+                    });
+                }
+            }
+
+            // Add new message to the request
+            _chatContents.Add(new ChatContent
+            {
+                role = "user",
+                parts = [new ChatContent.Part { text = newMessange.UserResquest }]
+            });
+
+            Uri uri = new Uri($"https://generativelanguage.googleapis.com/v1beta/models/{Model}:generateContent?key={ApiKey}");
+            var content = new StringContent(JsonSerializer.Serialize(new GeminiRequest { contents = _chatContents }), Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync(uri, content);
+            Console.WriteLine("AI Http status: " + response.StatusCode);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string errorRespsonse = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("err: " + errorRespsonse);
+
+                throw new Exception(errorRespsonse);
+            }
+
+            var geminiResponse = await response.Content.ReadFromJsonAsync<GeminiResponse>();
+            Console.WriteLine("Finish Reason: " + geminiResponse.candidates[0].finishReason);
+
+            var modelResponse = geminiResponse.candidates[0].content.parts[0].text;
+
+            // ModelResponse will exist at this point, save it (also add conversationID of the old message (if exist) to the new one)
+            newMessange.ConservationId = History.IsNullOrEmpty() ? 0 : History.First().ConservationId;
+            newMessange.ModelResponse = modelResponse;
+            History.Add(newMessange);
+
+            return newMessange;
         }
     }
 }
