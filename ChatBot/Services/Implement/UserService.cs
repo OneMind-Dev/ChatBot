@@ -37,6 +37,11 @@ namespace Services.Implement
             return _repo.GetUserById(id);
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return _repo.GetUserByEmail(email);
+        }
+
         public bool DeleteUser(int id)
         {
             return _repo.DeleteUser(id);

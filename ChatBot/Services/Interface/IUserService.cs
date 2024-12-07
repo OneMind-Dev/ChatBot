@@ -15,6 +15,8 @@ namespace Services.Interface
 
         User GetUserById(int id);
 
+        User GetUserByEmail(string email);
+
         bool DeleteUser(int o);
 
         bool UpdateUser(User o);

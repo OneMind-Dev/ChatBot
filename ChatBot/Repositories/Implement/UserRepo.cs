@@ -19,6 +19,9 @@ namespace Repositories.Implement
         public User GetUserById(int id)
         => UserDAO.Instance.GetUserById(id);
 
+        public User GetUserByEmail(string email)
+       => UserDAO.Instance.GetUserByEmail(email);
+
         public bool DeleteUser(int id)
         => UserDAO.Instance.DeleteUser(id);
 

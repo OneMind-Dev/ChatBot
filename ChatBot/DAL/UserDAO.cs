@@ -49,6 +49,23 @@ namespace DAOs
             }
         }
 
+        public User GetUserByEmail(string email)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    throw new ArgumentException("Email cannot be null or empty");
+                }
+
+                return _context.Users.SingleOrDefault(o => o.Email == email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving the user: " + ex.Message);
+            }
+        }
+
 
         public bool CreateUser(User o)
         {
