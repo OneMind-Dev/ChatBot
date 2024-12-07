@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="UserProfileWindow" Height="600" Width="350" Background="White" WindowStartupLocation="CenterScreen">
+        Title="UserProfileWindow" Height="700" Width="350" Background="White" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="White"/>
@@ -25,15 +25,15 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Margin="0,0,0,-6">
+    <Grid Margin="0,0,0,-16">
         <!-- Header -->
-        <Border Background="Black" Height="70" CornerRadius="10" Margin="10,393,10,21">
+        <Border Background="Black" Height="70" CornerRadius="10" Margin="10,489,10,31">
             <TextBlock Text="User Profile" Foreground="White" FontSize="24" FontWeight="SemiBold" 
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
 
         <!-- Main Content -->
-        <StackPanel Margin="20,27,20,0" VerticalAlignment="Top" Height="402">
+        <StackPanel Margin="20,27,20,0" VerticalAlignment="Top" Height="451">
             <!-- Profile Picture -->
             <Border Height="120" Width="120" Background="Black" CornerRadius="60" HorizontalAlignment="Center">
                 <Border.Effect>
@@ -91,10 +91,13 @@
 
 
             </StackPanel>
-            <StackPanel>
-                <Button Content="Change Password" Width="154" Height="33" Margin="10" 
+            <StackPanel Height="104">
+                <Button Content="Change Password" Width="138" Height="33" Margin="10" 
                 Background="Bisque" Foreground="Black" FontSize="14" FontWeight="Medium"
                 Style="{StaticResource RoundedButtonStyle}" Click="Button_ChangePassword_Click"/>
+                <Button Content="Cancel" Width="138" Height="33" 
+                Background="Bisque" Foreground="Black" FontSize="14" FontWeight="Medium"
+                Style="{StaticResource RoundedButtonStyle}" Click="Button_Cancel_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

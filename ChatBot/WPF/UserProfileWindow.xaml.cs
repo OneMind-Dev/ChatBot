@@ -23,7 +23,7 @@ namespace WPF
     public partial class UserProfileWindow : Window
     {
         public IUserService UserService;
-        private User LoggedUser;
+        public User LoggedUser;
         public UserProfileWindow(User user)
         {
             InitializeComponent();
@@ -111,6 +111,11 @@ namespace WPF
         {
             ChangePasswordWindow changePasswordWindow = new ChangePasswordWindow(LoggedUser);
             changePasswordWindow.ShowDialog();
+        }
+
+        private void Button_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

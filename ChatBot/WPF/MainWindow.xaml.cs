@@ -19,6 +19,7 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public User LoggedInUser;
         public IUserService UserService;
         public MainWindow()
         {
@@ -38,20 +39,17 @@ namespace WPF
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
-
             string username = txtUser.Text;
             string password = txtPass.Password;
 
-            // Gọi phương thức LoginUser từ IUserService
-            User loggedInUser = UserService.LoginUser(username, password);
+            // Assume UserService.LoginUser() validates the user
+            User user = UserService.LoginUser(username, password);
 
-            if (loggedInUser != null)
+            if (user != null)
             {
-                MessageBox.Show($"Login successful! Welcome, {loggedInUser.Username}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                // Di chuyển đến cửa sổ chính hoặc màn hình tiếp theo ở đây
-                UserProfileWindow userProfileWindow = new UserProfileWindow(loggedInUser);
-                userProfileWindow.Show();
-                this.Close();
+                LoggedInUser = user;
+                MessageBox.Show($"Login successful! Welcome, {user.Username}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.DialogResult = true;  // Close the window and indicate successful login
             }
             else
             {
