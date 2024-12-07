@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="UserProfileWindow" Height="550" Width="350" Background="White" WindowStartupLocation="CenterScreen">
+        Title="UserProfileWindow" Height="600" Width="350" Background="White" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="White"/>
@@ -44,40 +44,41 @@
 
             <!-- User Info -->
             <StackPanel Margin="0,20,0,0" Height="146" Width="290">
-                <!-- Name -->
+                <!-- Name (Read-Only) -->
                 <StackPanel Orientation="Horizontal" Margin="0,10">
                     <TextBlock Text="Name: " Foreground="Black" FontSize="16" FontWeight="SemiBold" Width="70"/>
-                    <TextBlock Name="name" Foreground="Black" FontSize="16" FontWeight="Medium" Text="{Binding Username}"/>
+                    <TextBlock Name="name" Foreground="Black" FontSize="16" FontWeight="Medium" Text="{Binding Username, Mode=OneWay}"/>
                 </StackPanel>
 
-                <!-- Email -->
+                <!-- Email (Editable) -->
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Email: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
-                    <TextBlock Name="email" Foreground="Gray" FontSize="14" Text="{Binding Email}"/>
+                    <TextBox Name="email" Foreground="Black" FontSize="14" Text="{Binding Email}" Width="200"/>
                 </StackPanel>
 
-                <!-- Phone -->
+                <!-- Phone (Editable) -->
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Phone: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
-                    <TextBlock Name="phone" Foreground="Gray" FontSize="14" Text="{Binding Phone}"/>
+                    <TextBox Name="phone" Foreground="Black" FontSize="14" Text="{Binding Phone}" Width="200"/>
                 </StackPanel>
 
-                <!-- Address -->
+                <!-- Address (Editable) -->
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Address: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
-                    <TextBlock Name="address" Foreground="Gray" FontSize="14" Text="{Binding Address}"/>
+                    <TextBox Name="address" Foreground="Black" FontSize="14" Text="{Binding Address}" Width="200"/>
                 </StackPanel>
             </StackPanel>
 
 
+
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" RenderTransformOrigin="0.507,0.442">
-                <Button Content="Edit Profile" Width="120" Height="40" Margin="10" 
+                <Button Content="Update Profile" Width="120" Height="40" Margin="10" 
                         Background="Black" Foreground="White" FontSize="14" FontWeight="Medium"
-                        Style="{StaticResource RoundedButtonStyle}" Click="Button_Click_1"/>
+                        Style="{StaticResource RoundedButtonStyle}" Click="Button_Update_Click"/>
                 <Button Content="Logout" Width="120" Height="40" Margin="10" 
                         Background="White" BorderBrush="Black" Foreground="Black" FontSize="14" FontWeight="Medium"
-                        Style="{StaticResource RoundedButtonStyle}" RenderTransformOrigin="0.5,0.5" Click="Button_Click">
+                        Style="{StaticResource RoundedButtonStyle}" RenderTransformOrigin="0.5,0.5" Click="Button_LogOut_Click">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -87,6 +88,13 @@
                         </TransformGroup>
                     </Button.RenderTransform>
                 </Button>
+
+
+            </StackPanel>
+            <StackPanel>
+                <Button Content="Change Password" Width="154" Height="33" Margin="10" 
+                Background="Bisque" Foreground="Black" FontSize="14" FontWeight="Medium"
+                Style="{StaticResource RoundedButtonStyle}" Click="Button_ChangePassword_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>
