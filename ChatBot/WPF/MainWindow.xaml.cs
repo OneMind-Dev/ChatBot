@@ -38,13 +38,34 @@ namespace WPF
 
             try
             {
+                // Attempt to login the user
                 User user = UserService.LoginUser(username, password);
 
                 if (user != null)
                 {
                     LoggedInUser = user;
                     MessageBox.Show($"Login successful! Welcome, {user.Username}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.DialogResult = true; // Close the window and indicate successful login
+
+                    // Check the user's roleId and navigate accordingly
+                    if (user.RoleId == 1)
+                    {
+                        // Navigate to AdminWindow
+                        AdminWindow adminWindow = new AdminWindow();
+                        adminWindow.Show();
+                    }
+                    else if (user.RoleId == 2)
+                    {
+                        // Navigate to ChatWindow
+                        ChatWindow chatWindow = new ChatWindow(LoggedInUser);
+                        chatWindow.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid role. Cannot determine which window to open.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    // Close the current login window
+                    this.Close();
                 }
                 else
                 {
