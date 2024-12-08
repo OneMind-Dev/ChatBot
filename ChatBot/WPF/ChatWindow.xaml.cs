@@ -96,7 +96,7 @@ namespace WPF
                 Text = aiResponse,
                 BackgroundColor = "#3C3F41",
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Avatar = "path_to_ai_avatar.png", // Replace with actual image path
+                Avatar = "C:\\Users\\thuon\\OneDrive\\Documents\\GitHub\\ChatBot\\ChatBot\\WPF\\Icons\\images.png",
                 AvatarVisibility = Visibility.Visible
             });
         }
