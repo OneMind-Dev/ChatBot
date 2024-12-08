@@ -9,7 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\add-icon.png" />
+    <None Remove="Icons\add.png" />
+    <None Remove="Icons\message.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Themes\MessageBox.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\add-icon.png" />
+    <Resource Include="Icons\add.png" />
+    <Resource Include="Icons\message.png" />
+    <Resource Include="Themes\MessageBox.xaml" />
   </ItemGroup>
 
   <ItemGroup>
