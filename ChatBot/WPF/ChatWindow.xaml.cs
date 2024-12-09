@@ -1,4 +1,5 @@
 ﻿using BOs;
+using Services.Implement;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -9,7 +10,10 @@ namespace WPF
 {
     public partial class ChatWindow : Window
     {
+        private Conversation _currentConversation;
         private readonly User LoggedUser;
+        private MessageService _messageService;
+        private ConversationService _conversationService;
         public ObservableCollection<Message> Messages { get; set; }
 
         public ChatWindow(User loggedUser)
@@ -19,6 +23,18 @@ namespace WPF
             Messages = new ObservableCollection<Message>();
             ChatMessages.ItemsSource = Messages;
             UpdateUI();
+
+            _messageService = new MessageService(loggedUser);
+            _conversationService = new ConversationService(loggedUser);
+        }
+
+        private void LoadConversation()
+        {
+            foreach (var item in _currentConversation.Messages)
+            {
+                AddUserRequest(item.UserResquest);
+                AddAIResponse(item.ModelResponse);
+            }
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -69,24 +85,38 @@ namespace WPF
             }
         }
 
-        private void SendMessageButton_Click(object sender, RoutedEventArgs e)
+        private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {
             string userMessage = ChatInputBox.Text.Trim();
             if (!string.IsNullOrWhiteSpace(userMessage))
             {
-                Messages.Add(new Message
-                {
-                    Text = userMessage,
-                    BackgroundColor = "#5865F2",
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    Avatar = null,
-                    AvatarVisibility = Visibility.Collapsed
-                });
+                AddUserRequest(userMessage);
 
                 ChatInputBox.Clear();
 
-                AddAIResponse("I'm here to help!");
+                if (_currentConversation == null)
+                {
+                    string res = await _messageService.SendMessage(userMessage);
+                    AddAIResponse(res);
+                }
+                else
+                {
+                    string res = await _messageService.SendMessage(userMessage, _currentConversation.ConversationId);
+                    AddAIResponse(res);
+                }
             }
+        }
+
+        private void AddUserRequest(string userMessage)
+        {
+            Messages.Add(new Message
+            {
+                Text = userMessage,
+                BackgroundColor = "#5865F2",
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Avatar = null,
+                AvatarVisibility = Visibility.Collapsed
+            });
         }
 
         private void AddAIResponse(string aiResponse)
