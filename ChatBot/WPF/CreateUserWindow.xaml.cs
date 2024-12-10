@@ -24,6 +24,8 @@ namespace WPF
             cmbRole.ItemsSource = roles;
             cmbRole.DisplayMemberPath = "RoleName";
             cmbRole.SelectedValuePath = "RoleId";
+
+            cmbRole.SelectedValue = 2;
         }
 
         private void Button_Create_Click(object sender, RoutedEventArgs e)

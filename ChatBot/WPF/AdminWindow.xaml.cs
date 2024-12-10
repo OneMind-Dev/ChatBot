@@ -115,5 +115,10 @@ namespace WPF
         {
             ClearForm();
         }
+
+        private void cmbRole_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
