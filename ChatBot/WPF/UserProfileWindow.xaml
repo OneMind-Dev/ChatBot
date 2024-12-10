@@ -39,7 +39,7 @@
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="4" Opacity="0.5" Color="Gray"/>
                 </Border.Effect>
-                <TextBlock Text="Avatar" Foreground="White" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Image x:Name="UserAvatar" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
 
             <!-- User Info -->
@@ -50,22 +50,75 @@
                     <TextBlock Name="name" Foreground="Black" FontSize="16" FontWeight="Medium" Text="{Binding Username, Mode=OneWay}"/>
                 </StackPanel>
 
-                <!-- Email (Editable) -->
+                <!-- Email -->
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Email: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
-                    <TextBox Name="email" Foreground="Black" FontSize="14" Text="{Binding Email}" Width="200"/>
+                    <Grid>
+                        <!-- Hiển thị TextBlock -->
+                        <TextBlock 
+                x:Name="EmailTextBlock" 
+                Text="{Binding Email}" 
+                Foreground="Black" FontSize="14" 
+                VerticalAlignment="Center" 
+                MouseDown="EmailTextBlock_MouseDown"
+                Visibility="Visible" />
+
+                        <!-- Hiển thị TextBox -->
+                        <TextBox 
+                x:Name="EmailTextBox" 
+                Text="{Binding Email}" 
+                Foreground="Black" FontSize="14" 
+                VerticalAlignment="Center"
+                LostFocus="EmailTextBox_LostFocus"
+                Visibility="Collapsed" 
+                Width="200" />
+                    </Grid>
                 </StackPanel>
 
-                <!-- Phone (Editable) -->
+                <!-- Phone -->
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Phone: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
-                    <TextBox Name="phone" Foreground="Black" FontSize="14" Text="{Binding Phone}" Width="200"/>
+                    <Grid>
+                        <TextBlock 
+                x:Name="PhoneTextBlock" 
+                Text="{Binding Phone}" 
+                Foreground="Black" FontSize="14" 
+                VerticalAlignment="Center" 
+                MouseDown="PhoneTextBlock_MouseDown"
+                Visibility="Visible" />
+
+                        <TextBox 
+                x:Name="PhoneTextBox" 
+                Text="{Binding Phone}" 
+                Foreground="Black" FontSize="14" 
+                VerticalAlignment="Center"
+                LostFocus="PhoneTextBox_LostFocus"
+                Visibility="Collapsed" 
+                Width="200" />
+                    </Grid>
                 </StackPanel>
 
-                <!-- Address (Editable) -->
+                <!-- Address -->
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Address: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
-                    <TextBox Name="address" Foreground="Black" FontSize="14" Text="{Binding Address}" Width="200"/>
+                    <Grid>
+                        <TextBlock 
+                x:Name="AddressTextBlock" 
+                Text="{Binding Address}" 
+                Foreground="Black" FontSize="14" 
+                VerticalAlignment="Center" 
+                MouseDown="AddressTextBlock_MouseDown"
+                Visibility="Visible" />
+
+                        <TextBox 
+                x:Name="AddressTextBox" 
+                Text="{Binding Address}" 
+                Foreground="Black" FontSize="14" 
+                VerticalAlignment="Center"
+                LostFocus="AddressTextBox_LostFocus"
+                Visibility="Collapsed" 
+                Width="200" />
+                    </Grid>
                 </StackPanel>
             </StackPanel>
 
@@ -77,7 +130,7 @@
                         Background="Black" Foreground="White" FontSize="14" FontWeight="Medium"
                         Style="{StaticResource RoundedButtonStyle}" Click="Button_Update_Click"/>
                 <Button Content="Logout" Width="120" Height="40" Margin="10" 
-                        Background="White" BorderBrush="Black" Foreground="Black" FontSize="14" FontWeight="Medium"
+                        Background="Red" BorderBrush="Black" Foreground="Black" FontSize="14" FontWeight="Medium"
                         Style="{StaticResource RoundedButtonStyle}" RenderTransformOrigin="0.5,0.5" Click="Button_LogOut_Click">
                     <Button.RenderTransform>
                         <TransformGroup>
