@@ -54,6 +54,8 @@ namespace WPF
 
         private void LoadUserConversations() //nội dung hiển thị với title tùy mấy ông setup cho nó
         {
+            Conversations.Clear();
+
             var list = _conversationService.GetConversationsByUserId(LoggedUser.UserId);
             foreach (var item in list)
             {
@@ -65,7 +67,7 @@ namespace WPF
         {
             Messages.Clear();
 
-            foreach (var item in _currentConversation.Messages)
+            foreach (var item in _currentConversation?.Messages)
             {
                 AddUserRequest(item.UserResquest);
                 AddAIResponse(item.ModelResponse);
@@ -103,10 +105,10 @@ namespace WPF
             userProfileWindow.Show();
         }
 
-        private void NewConversationButton_Click(object sender, RoutedEventArgs e)
+        private void NewChatButton_Click(object sender, RoutedEventArgs e)
         {
             _currentConversation = null;
-            LoadConversation();
+            Messages.Clear();
         }
 
         private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -122,6 +124,9 @@ namespace WPF
                 {
                     string res = await _messageService.SendMessage(userMessage);
                     AddAIResponse(res);
+
+                    // Refresh Conversations sau khi bắt đầu conversation mới
+                    LoadUserConversations();
                 }
                 else
                 {
@@ -137,7 +142,6 @@ namespace WPF
             {
                 _currentConversation = selectedConversation;
                 LoadConversation();
-                MessageBox.Show($"Loading conversation: {selectedConversation}", "Load Conversation");
             }
         }
 
@@ -148,7 +152,7 @@ namespace WPF
                 Text = userMessage,
                 BackgroundColor = "#5865F2",
                 HorizontalAlignment = HorizontalAlignment.Right,
-                Avatar = null,
+                Avatar = LoggedUser.Avatar,
                 AvatarVisibility = Visibility.Collapsed
             });
         }
@@ -165,9 +169,12 @@ namespace WPF
             });
         }
 
-        private void NewChatButton_Click(object sender, RoutedEventArgs e)
+        private void TextBlock_EnterSent(object sender, KeyEventArgs e)
         {
-
+            if (e.Key == Key.Enter)
+            {
+                SendMessageButton_Click(sender, e);
+            }
         }
     }
 

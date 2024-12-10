@@ -111,7 +111,7 @@ namespace Services.Implement
 
         public ChatBotCore()
         {
-            ApiKey ??= Environment.GetEnvironmentVariable("GEMINI_API_KEY", EnvironmentVariableTarget.User);
+            ApiKey = Environment.GetEnvironmentVariable("GEMINI_API_KEY", EnvironmentVariableTarget.User) ?? ApiKey;
             Console.WriteLine("API Key: " + ApiKey);
         }
 
