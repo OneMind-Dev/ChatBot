@@ -71,6 +71,7 @@
                     <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="120"/>
                     <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
                     <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="120"/>
+                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="150"/>
                     <DataGridTextColumn Header="Role" Binding="{Binding Role.RoleName}" Width="100"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -103,10 +104,12 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
-                <Button Content="Delete" Style="{StaticResource RoundedButtonStyle}" Background="White" 
-                        Foreground="Red" BorderBrush="Red" Click="Button_Delete_Click"/>
-                <Button Content="Clear" Style="{StaticResource RoundedButtonStyle}" Background="White" 
-                        Foreground="Black" BorderBrush="Black" Click="Button_Clear_Click"/>
+                <Button Content="Delete" Style="{StaticResource RoundedButtonStyle}" 
+            Background="#FFE6E6" Foreground="Red" BorderBrush="Red" 
+            Click="Button_Delete_Click"/>
+                <Button Content="Clear" Style="{StaticResource RoundedButtonStyle}" 
+            Background="#F5F5F5" Foreground="Black" BorderBrush="Gray" 
+            Click="Button_Clear_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>
