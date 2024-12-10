@@ -6,7 +6,8 @@
     <Application.Resources>
         
         <ResourceDictionary>
-            
+            <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/MessageBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>

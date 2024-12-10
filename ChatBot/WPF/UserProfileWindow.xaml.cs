@@ -1,5 +1,4 @@
 ﻿using BOs;
-using Microsoft.Win32;
 using Services.Implement;
 using Services.Interface;
 using System;
@@ -23,12 +22,34 @@ namespace WPF
     /// Interaction logic for UserProfileWindow.xaml
     /// </summary>
     /// 
-    
+    public class BooleanToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (Visibility)value == Visibility.Visible;
+        }
+    }
+    public class InverseBooleanToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(bool)value ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (Visibility)value != Visibility.Visible;
+        }
+    }
     public partial class UserProfileWindow : Window
     {
         public IUserService UserService;
         public User LoggedUser;
-        private string url;
         public UserProfileWindow(User user)
         {
             InitializeComponent();
@@ -123,7 +144,6 @@ namespace WPF
                 LoggedUser.Email = emailInput;
                 LoggedUser.Phone = phoneInput;
                 LoggedUser.Address = addressInput;
-                LoggedUser.Avatar = url;
 
                 // Gọi UserService để lưu thay đổi
                 bool isUpdated = UserService.UpdateUser(LoggedUser);
@@ -158,17 +178,6 @@ namespace WPF
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void Button_ChangeImage_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                url = openFileDialog.FileName; // Lưu đường dẫn ảnh vào TextBox
-                UserAvatar.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(openFileDialog.FileName)); // Hiển thị ảnh lên Image
-            }
         }
     }
 }

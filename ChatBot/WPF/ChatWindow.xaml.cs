@@ -101,16 +101,8 @@ namespace WPF
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            // dùng dialog để dừng luồng và có thể kiểm tra
             UserProfileWindow userProfileWindow = new UserProfileWindow(LoggedUser);
-            userProfileWindow.ShowDialog();
-            if(userProfileWindow.LoggedUser == null)
-            {
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
-            }
-            UpdateUI();
+            userProfileWindow.Show();
         }
 
         private void NewChatButton_Click(object sender, RoutedEventArgs e)
