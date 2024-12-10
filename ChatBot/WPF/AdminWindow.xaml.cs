@@ -75,7 +75,7 @@ namespace WPF
 
             selectedUser.Username = txtUsername.Text;
             if (!string.IsNullOrEmpty(txtPassword.Password))
-                selectedUser.Password = txtPassword.Password;
+            selectedUser.Password = txtPassword.Password;
             selectedUser.Email = txtEmail.Text;
             selectedUser.Phone = txtPhone.Text;
             selectedUser.Address = txtAddress.Text;

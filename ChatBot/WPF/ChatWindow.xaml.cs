@@ -164,6 +164,11 @@ namespace WPF
                 AvatarVisibility = Visibility.Visible
             });
         }
+
+        private void NewChatButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class Message

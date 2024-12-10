@@ -107,7 +107,7 @@ namespace Services.Implement
         /// </summary>
         public List<Message> History { get; set; } = new List<Message>();
         public string Model { set; get; } = "gemini-1.5-flash";
-        public string ApiKey { set; get; }
+        public string ApiKey { set; get; } = "AIzaSyB78Sqk6AGXDBGSXvNaLX5UQdtBe02Amvs";
 
         public ChatBotCore()
         {
