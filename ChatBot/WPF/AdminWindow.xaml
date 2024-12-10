@@ -5,8 +5,112 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
-        Title="AdminWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="User Management" Height="800" Width="1000" Background="#F5F5F5" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                CornerRadius="20"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InputFieldStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,5"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Side - User List -->
+        <Grid Grid.Column="0" Margin="0,0,20,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Background="Black" Height="70" CornerRadius="10" Grid.Row="0">
+                <TextBlock Text="User Management" Foreground="White" FontSize="24" 
+                           FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- User DataGrid -->
+            <DataGrid x:Name="UsersGrid" Grid.Row="1" Margin="0,20,0,0" AutoGenerateColumns="False" 
+                      IsReadOnly="True" SelectionMode="Single" SelectionChanged="UsersGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding UserId}" Width="50"/>
+                    <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="120"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="120"/>
+                    <DataGridTextColumn Header="Role" Binding="{Binding Role.RoleName}" Width="100"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!-- Right Side - User Details Form -->
+        <StackPanel Grid.Column="1" Background="White" Margin="0,0,0,0">
+            <TextBlock Text="User Details" FontSize="20" FontWeight="SemiBold" Margin="0,20,0,20"/>
+
+            <!-- Input Fields -->
+            <TextBlock Text="Username:" Margin="0,5"/>
+            <TextBox x:Name="txtUsername" Style="{StaticResource InputFieldStyle}"/>
+
+            <TextBlock Text="Password:" Margin="0,5"/>
+            <PasswordBox x:Name="txtPassword" Height="40" Padding="10" Margin="0,5"/>
+
+            <TextBlock Text="Email:" Margin="0,5"/>
+            <TextBox x:Name="txtEmail" Style="{StaticResource InputFieldStyle}"/>
+
+            <TextBlock Text="Phone:" Margin="0,5"/>
+            <TextBox x:Name="txtPhone" Style="{StaticResource InputFieldStyle}"/>
+
+            <TextBlock Text="Address:" Margin="0,5"/>
+            <TextBox x:Name="txtAddress" Style="{StaticResource InputFieldStyle}"/>
+
+            <TextBlock Text="Role:" Margin="0,5"/>
+            <ComboBox x:Name="cmbRole" Height="40" Margin="0,5" SelectionChanged="cmbRole_SelectionChanged"/>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
+                <Button Content="Create" Style="{StaticResource RoundedButtonStyle}" Click="Button_Create_Click"/>
+                <Button Content="Update" Style="{StaticResource RoundedButtonStyle}" Click="Button_Update_Click"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+                <Button Content="Delete" Style="{StaticResource RoundedButtonStyle}" Background="White" 
+                        Foreground="Red" BorderBrush="Red" Click="Button_Delete_Click"/>
+                <Button Content="Clear" Style="{StaticResource RoundedButtonStyle}" Background="White" 
+                        Foreground="Black" BorderBrush="Black" Click="Button_Clear_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
