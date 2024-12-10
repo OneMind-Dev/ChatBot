@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -11,14 +12,18 @@ namespace WPF
     {
         private readonly User LoggedUser;
         public ObservableCollection<Message> Messages { get; set; }
+        public ObservableCollection<string> Conversations { get; set; }
 
         public ChatWindow(User loggedUser)
         {
             InitializeComponent();
             LoggedUser = loggedUser ?? throw new ArgumentNullException(nameof(loggedUser));
             Messages = new ObservableCollection<Message>();
+            Conversations = new ObservableCollection<string>(); // Danh sách hội thoại cũ
             ChatMessages.ItemsSource = Messages;
+            ConversationsListBox.ItemsSource = Conversations; // Liên kết danh sách hội thoại
             UpdateUI();
+            LoadConversations(); // Tải hội thoại cũ
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -48,7 +53,6 @@ namespace WPF
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            // Navigate to UserProfileWindow
             UserProfileWindow userProfileWindow = new UserProfileWindow(LoggedUser);
             userProfileWindow.Show();
         }
@@ -67,6 +71,14 @@ namespace WPF
             {
                 UserAvatar.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void LoadConversations() //nội dung hiển thị với title tùy mấy ông setup cho nó
+        {
+            Conversations.Add("Conversation with Alice");
+            Conversations.Add("Meeting Notes");
+            Conversations.Add("Project Discussion");
+            Conversations.Add("Chat with Bob");
         }
 
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -96,9 +108,17 @@ namespace WPF
                 Text = aiResponse,
                 BackgroundColor = "#3C3F41",
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Avatar = "\\Icons\\message.png", // Replace with actual image path
+                Avatar = "\\Icons\\message.png",
                 AvatarVisibility = Visibility.Visible
             });
+        }
+
+        private void ConversationsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ConversationsListBox.SelectedItem is string selectedConversation)
+            {
+                MessageBox.Show($"Loading conversation: {selectedConversation}", "Load Conversation");
+            }
         }
     }
 
