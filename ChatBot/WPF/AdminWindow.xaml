@@ -84,9 +84,6 @@
             <TextBlock Text="Username:" Margin="0,5"/>
             <TextBox x:Name="txtUsername" Style="{StaticResource InputFieldStyle}"/>
 
-            <TextBlock Text="Password:" Margin="0,5"/>
-            <PasswordBox x:Name="txtPassword" Height="40" Padding="10" Margin="0,5"/>
-
             <TextBlock Text="Email:" Margin="0,5"/>
             <TextBox x:Name="txtEmail" Style="{StaticResource InputFieldStyle}"/>
 

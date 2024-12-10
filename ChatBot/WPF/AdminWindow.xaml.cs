@@ -34,7 +34,6 @@ namespace WPF
         private void ClearForm()
         {
             txtUsername.Text = string.Empty;
-            txtPassword.Password = string.Empty;
             txtEmail.Text = string.Empty;
             txtPhone.Text = string.Empty;
             txtAddress.Text = string.Empty;
@@ -74,8 +73,6 @@ namespace WPF
             }
 
             selectedUser.Username = txtUsername.Text;
-            if (!string.IsNullOrEmpty(txtPassword.Password))
-            selectedUser.Password = txtPassword.Password;
             selectedUser.Email = txtEmail.Text;
             selectedUser.Phone = txtPhone.Text;
             selectedUser.Address = txtAddress.Text;

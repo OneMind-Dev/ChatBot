@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAOs
 {
@@ -34,7 +35,7 @@ namespace DAOs
 
         public List<User> GetAllUsers()
         {
-            return _context.Users.ToList();
+            return _context.Users.Include(u => u.Role).ToList();
         }
 
         public User GetUserById(int id)
