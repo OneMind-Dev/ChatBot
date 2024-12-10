@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAOs
 {
@@ -29,14 +30,24 @@ namespace DAOs
 
         public List<Conversation> GetAllConversations()
         {
-            return _context.Conversations.ToList();
+            return _context.Conversations.Include(c => c.Messages).ToList();
+        }
+
+        public List<Conversation> GetConversationsByUserId(int id)
+        {
+            return _context.Conversations
+                .Where(c => c.UserId == id)
+                .Include(c => c.Messages)
+                .ToList();
         }
 
         public Conversation GetConversationById(int id)
         {
             try
             {
-                return _context.Conversations.SingleOrDefault(o => o.ConversationId == id);
+                return _context.Conversations
+                    .Include(c => c.Messages)
+                    .SingleOrDefault(o => o.ConversationId == id);
             }
             catch (Exception ex)
             {

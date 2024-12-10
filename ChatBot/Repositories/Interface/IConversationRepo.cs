@@ -11,6 +11,8 @@ namespace Repositories.Interface
     {
         List<Conversation> GetAllConversations();
 
+        List<Conversation> GetConversationsByUserId(int id);
+
         Conversation GetConversationById(int id);
 
         bool DeleteConversation(int o);

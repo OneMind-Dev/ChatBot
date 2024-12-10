@@ -15,6 +15,9 @@ namespace Repositories.Implement
         public List<Conversation> GetAllConversations()
         => ConversationDAO.Instance.GetAllConversations();
 
+        public List<Conversation> GetConversationsByUserId(int id)
+            => ConversationDAO.Instance.GetConversationsByUserId(id);
+
         public Conversation GetConversationById(int id)
         => ConversationDAO.Instance.GetConversationById(id);
 

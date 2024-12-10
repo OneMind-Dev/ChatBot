@@ -13,6 +13,7 @@ namespace Services.Implement
     public class ConversationService : IConversationService
     {
         private IConversationRepo _repo = null;
+        private User _user;
         public ConversationService()
         {
             if (_repo == null)
@@ -20,9 +21,21 @@ namespace Services.Implement
                 _repo = new ConversationRepo();
             }
         }
+
+        public ConversationService(User user)
+        {
+            _user = user;
+            _repo ??= new ConversationRepo();
+        }
+
         public List<Conversation> GetAllConversations()
         {
             return _repo.GetAllConversations();
+        }
+
+        public List<Conversation> GetConversationsByUserId(int id)
+        {
+            return _repo.GetConversationsByUserId(id);
         }
 
         public Conversation GetConversationById(int id)
@@ -44,5 +57,6 @@ namespace Services.Implement
         {
             return _repo.CreateConversation(o);
         }
+
     }
 }
