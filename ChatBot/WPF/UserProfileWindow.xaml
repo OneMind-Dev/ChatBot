@@ -25,15 +25,15 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Margin="0,0,0,-16">
+    <Grid Margin="0,0,0,-6">
         <!-- Header -->
-        <Border Background="Black" Height="70" CornerRadius="10" Margin="10,489,10,31">
+        <Border Background="Black" CornerRadius="10" Margin="10,522,10,87">
             <TextBlock Text="User Profile" Foreground="White" FontSize="24" FontWeight="SemiBold" 
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
 
         <!-- Main Content -->
-        <StackPanel Margin="20,27,20,0" VerticalAlignment="Top" Height="451">
+        <StackPanel Margin="20,27,20,0" VerticalAlignment="Top" Height="470">
             <!-- Profile Picture -->
             <Border Height="120" Width="120" Background="Black" CornerRadius="60" HorizontalAlignment="Center">
                 <Border.Effect>
@@ -41,6 +41,20 @@
                 </Border.Effect>
                 <Image x:Name="UserAvatar" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
+            <StackPanel Height="25" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.554"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="0.324"/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Button Content="Change avatar" Width="95" Height="25" 
+        Background="Black" Foreground="White" FontSize="10" FontWeight="Medium"
+        Style="{StaticResource RoundedButtonStyle}" Click="Button_ChangeImage_Click"/>
+            </StackPanel>
+
 
             <!-- User Info -->
             <StackPanel Margin="0,20,0,0" Height="146" Width="290">
@@ -144,11 +158,11 @@
 
 
             </StackPanel>
-            <StackPanel Height="104">
+            <StackPanel Height="89">
                 <Button Content="Change Password" Width="138" Height="33" Margin="10" 
                 Background="Bisque" Foreground="Black" FontSize="14" FontWeight="Medium"
                 Style="{StaticResource RoundedButtonStyle}" Click="Button_ChangePassword_Click"/>
-                <Button Content="Cancel" Width="138" Height="33" 
+                <Button Content="Cancel" Width="138" Height="30" 
                 Background="Bisque" Foreground="Black" FontSize="14" FontWeight="Medium"
                 Style="{StaticResource RoundedButtonStyle}" Click="Button_Cancel_Click"/>
             </StackPanel>
