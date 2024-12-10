@@ -3,6 +3,7 @@ using Services.Implement;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -15,21 +16,55 @@ namespace WPF
         private MessageService _messageService;
         private ConversationService _conversationService;
         public ObservableCollection<Message> Messages { get; set; }
+        public ObservableCollection<Conversation> Conversations { get; set; }
 
         public ChatWindow(User loggedUser)
         {
             InitializeComponent();
             LoggedUser = loggedUser ?? throw new ArgumentNullException(nameof(loggedUser));
-            Messages = new ObservableCollection<Message>();
-            ChatMessages.ItemsSource = Messages;
-            UpdateUI();
-
             _messageService = new MessageService(loggedUser);
             _conversationService = new ConversationService(loggedUser);
+
+            UpdateUI();
+
+            Messages = new ObservableCollection<Message>();
+            ChatMessages.ItemsSource = Messages;
+
+            Conversations = new ObservableCollection<Conversation>(); // Danh sách hội thoại cũ
+            ConversationsListBox.ItemsSource = Conversations; // Liên kết danh sách hội thoại
+
+            LoadUserConversations();
+        }
+
+        private void UpdateUI()
+        {
+            UsernameLabel.Text = LoggedUser.Username;
+            UserEmailLabel.Text = LoggedUser.Email ?? "No email provided";
+
+            if (!string.IsNullOrWhiteSpace(LoggedUser.Avatar))
+            {
+                UserAvatar.Source = new BitmapImage(new Uri(LoggedUser.Avatar, UriKind.RelativeOrAbsolute));
+                UserAvatar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                UserAvatar.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void LoadUserConversations() //nội dung hiển thị với title tùy mấy ông setup cho nó
+        {
+            var list = _conversationService.GetConversationsByUserId(LoggedUser.UserId);
+            foreach (var item in list)
+            {
+                Conversations.Add(item);
+            }
         }
 
         private void LoadConversation()
         {
+            Messages.Clear();
+
             foreach (var item in _currentConversation.Messages)
             {
                 AddUserRequest(item.UserResquest);
@@ -64,25 +99,14 @@ namespace WPF
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            // Navigate to UserProfileWindow
             UserProfileWindow userProfileWindow = new UserProfileWindow(LoggedUser);
             userProfileWindow.Show();
         }
 
-        private void UpdateUI()
+        private void NewConversationButton_Click(object sender, RoutedEventArgs e)
         {
-            UsernameLabel.Text = LoggedUser.Username;
-            UserEmailLabel.Text = LoggedUser.Email ?? "No email provided";
-
-            if (!string.IsNullOrWhiteSpace(LoggedUser.Avatar))
-            {
-                UserAvatar.Source = new BitmapImage(new Uri(LoggedUser.Avatar, UriKind.RelativeOrAbsolute));
-                UserAvatar.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                UserAvatar.Visibility = Visibility.Collapsed;
-            }
+            _currentConversation = null;
+            LoadConversation();
         }
 
         private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -107,6 +131,16 @@ namespace WPF
             }
         }
 
+        private void ConversationsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ConversationsListBox.SelectedItem is Conversation selectedConversation)
+            {
+                _currentConversation = selectedConversation;
+                LoadConversation();
+                MessageBox.Show($"Loading conversation: {selectedConversation}", "Load Conversation");
+            }
+        }
+
         private void AddUserRequest(string userMessage)
         {
             Messages.Add(new Message
@@ -126,7 +160,7 @@ namespace WPF
                 Text = aiResponse,
                 BackgroundColor = "#3C3F41",
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Avatar = "\\Icons\\message.png", // Replace with actual image path
+                Avatar = "\\Icons\\message.png",
                 AvatarVisibility = Visibility.Visible
             });
         }
