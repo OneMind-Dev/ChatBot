@@ -104,7 +104,7 @@
         <!-- Buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Create" Style="{StaticResource RoundedButtonStyle}" Click="Button_Create_Click"/>
-            <Button Content="Cancel" Style="{StaticResource RoundedButtonStyle}" Background="White" 
+            <Button Content="Cancel" Style="{StaticResource RoundedButtonStyle}" Background="LightGray" 
                     Foreground="Black" BorderBrush="Black" Click="Button_Cancel_Click"/>
         </StackPanel>
     </Grid>

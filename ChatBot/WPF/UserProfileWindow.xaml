@@ -41,7 +41,7 @@
                 </Border.Effect>
                 <Image x:Name="UserAvatar" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
-            <StackPanel Height="25" RenderTransformOrigin="0.5,0.5">
+            <StackPanel Height="31" RenderTransformOrigin="0.5,0.5" Width="310">
                 <StackPanel.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -50,22 +50,20 @@
                         <TranslateTransform X="0.324"/>
                     </TransformGroup>
                 </StackPanel.RenderTransform>
-                <Button Content="Change avatar" Width="95" Height="25" 
+                <Button Content="Change avatar" Width="94" Height="25" 
         Background="Black" Foreground="White" FontSize="10" FontWeight="Medium"
+                        HorizontalAlignment="Center" Margin="0,4,0,0"
         Style="{StaticResource RoundedButtonStyle}" Click="Button_ChangeImage_Click"/>
             </StackPanel>
-
-
-            <!-- User Info -->
-            <StackPanel Margin="0,20,0,0" Height="146" Width="290">
+            <StackPanel Height="160" Width="290">
                 <!-- Name (Read-Only) -->
                 <StackPanel Orientation="Horizontal" Margin="0,10">
                     <TextBlock Text="Name: " Foreground="Black" FontSize="16" FontWeight="SemiBold" Width="70"/>
-                    <TextBlock Name="name" Foreground="Black" FontSize="16" FontWeight="Medium" Text="{Binding Username, Mode=OneWay}"/>
+                    <TextBlock x:Name="name" Foreground="Black" FontSize="16" FontWeight="Medium" Text="{Binding Username, Mode=OneWay}"/>
                 </StackPanel>
 
                 <!-- Email -->
-                <StackPanel Orientation="Horizontal" Margin="0,5">
+                <StackPanel Orientation="Horizontal" Margin="0,10">
                     <TextBlock Text="Email: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
                     <Grid>
                         <!-- Hiển thị TextBlock -->
@@ -90,7 +88,7 @@
                 </StackPanel>
 
                 <!-- Phone -->
-                <StackPanel Orientation="Horizontal" Margin="0,5">
+                <StackPanel Orientation="Horizontal" Margin="0,10">
                     <TextBlock Text="Phone: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
                     <Grid>
                         <TextBlock 
@@ -113,7 +111,7 @@
                 </StackPanel>
 
                 <!-- Address -->
-                <StackPanel Orientation="Horizontal" Margin="0,5">
+                <StackPanel Orientation="Horizontal" Margin="0,10">
                     <TextBlock Text="Address: " Foreground="Gray" FontSize="14" FontWeight="SemiBold" Width="70"/>
                     <Grid>
                         <TextBlock 
@@ -137,13 +135,16 @@
             </StackPanel>
 
 
+            <!-- User Info -->
+
+
 
             <!-- Buttons -->
-            <StackPanel Orientation="Horizontal" RenderTransformOrigin="0.507,0.442">
+            <StackPanel Orientation="Horizontal" RenderTransformOrigin="0.507,0.442" HorizontalAlignment="Center">
                 <Button Content="Update Profile" Width="120" Height="40" Margin="10" 
                         Background="Black" Foreground="White" FontSize="14" FontWeight="Medium"
                         Style="{StaticResource RoundedButtonStyle}" Click="Button_Update_Click"/>
-                <Button Content="Logout" Width="120" Height="40" Margin="10" 
+                <Button Content="Logout" Width="120" Height="40" 
                         Background="Red" BorderBrush="Black" Foreground="Black" FontSize="14" FontWeight="Medium"
                         Style="{StaticResource RoundedButtonStyle}" RenderTransformOrigin="0.5,0.5" Click="Button_LogOut_Click">
                     <Button.RenderTransform>

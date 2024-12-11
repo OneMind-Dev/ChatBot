@@ -98,9 +98,9 @@
 
                 <StackPanel Margin="10,20,10,10">
                     <!-- Các nút Profile, Settings, Help -->
-                    <Button Content="Profile" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Click="ProfileButton_Click"/>
-                    <Button Content="Settings" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14"/>
-                    <Button Content="Help" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14"/>
+                    <Button Content="Profile" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Click="ProfileButton_Click" FontWeight="SemiBold" />
+                    <Button Content="Settings" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" FontWeight="SemiBold"/>
+                    <Button Content="Help" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" FontWeight="SemiBold"/>
 
                     <!-- Thêm khoảng cách giữa Help và New Chat -->
                     <Separator Margin="0,10,0,10" Background="#40444B" Height="2"/>
