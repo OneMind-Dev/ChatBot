@@ -2,6 +2,8 @@
 using Services.Implement;
 using Services.Interface;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WPF
 {
@@ -18,31 +20,103 @@ namespace WPF
             LoadRoles();
         }
 
-        private void LoadRoles()
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var roles = _roleService.GetAllRoles();
-            cmbRole.ItemsSource = roles;
-            cmbRole.DisplayMemberPath = "RoleName";
-            cmbRole.SelectedValuePath = "RoleId";
+            var textBox = sender as TextBox;
+            if (textBox == null) return;
 
-            cmbRole.SelectedValue = 2;
+            ValidateField(textBox);
+            UpdateCreateButtonState();
+        }
+
+        private void Password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+            if (passwordBox == null) return;
+
+            bool isValid = !string.IsNullOrWhiteSpace(passwordBox.Password);
+            passwordValidation.Visibility = isValid ? Visibility.Collapsed : Visibility.Visible;
+            UpdateCreateButtonState();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            roleValidation.Visibility = cmbRole.SelectedValue == null ? Visibility.Visible : Visibility.Collapsed;
+            UpdateCreateButtonState();
+        }
+
+        private void ValidateField(TextBox textBox)
+        {
+            string validationMessage = "";
+            bool isValid = true;
+
+            switch (textBox.Name)
+            {
+                case "txtUsername":
+                    isValid = ValidationHelper.IsValidUsername(textBox.Text);
+                    validationMessage = "Username is required";
+                    usernameValidation.Visibility = isValid ? Visibility.Collapsed : Visibility.Visible;
+                    break;
+
+                case "txtEmail":
+                    isValid = ValidationHelper.IsValidEmail(textBox.Text);
+                    validationMessage = "Invalid email format";
+                    emailValidation.Visibility = isValid ? Visibility.Collapsed : Visibility.Visible;
+                    break;
+
+                case "txtPhone":
+                    isValid = ValidationHelper.IsValidPhone(textBox.Text);
+                    validationMessage = "Phone must be exactly 10 digits";
+                    phoneValidation.Visibility = isValid ? Visibility.Collapsed : Visibility.Visible;
+                    break;
+
+                case "txtAddress":
+                    isValid = ValidationHelper.IsValidAddress(textBox.Text);
+                    validationMessage = "Address is required";
+                    addressValidation.Visibility = isValid ? Visibility.Collapsed : Visibility.Visible;
+                    break;
+            }
+
+            textBox.ToolTip = !isValid ? validationMessage : null;
+        }
+
+        private void UpdateCreateButtonState()
+        {
+            btnCreate.IsEnabled = IsFormValid();
+        }
+
+        private bool IsFormValid()
+        {
+            return ValidationHelper.IsValidUsername(txtUsername.Text) &&
+                   !string.IsNullOrWhiteSpace(txtPassword.Password) &&
+                   ValidationHelper.IsValidEmail(txtEmail.Text) &&
+                   ValidationHelper.IsValidPhone(txtPhone.Text) &&
+                   ValidationHelper.IsValidAddress(txtAddress.Text) &&
+                   cmbRole.SelectedValue != null;
+        }
+
+        private void Phone_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(char.IsDigit);
         }
 
         private void Button_Create_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateInput())
-            {
-                var newUser = new User
-                {
-                    Username = txtUsername.Text,
-                    Password = txtPassword.Password,
-                    Email = txtEmail.Text,
-                    Phone = txtPhone.Text,
-                    Address = txtAddress.Text,
-                    RoleId = (int)cmbRole.SelectedValue,
-                    Avatar = string.Empty
-                };
+            if (!IsFormValid()) return;
 
+            var newUser = new User
+            {
+                Username = txtUsername.Text.Trim(),
+                Password = txtPassword.Password.Trim(),
+                Email = txtEmail.Text.Trim(),
+                Phone = txtPhone.Text.Trim(),
+                Address = txtAddress.Text.Trim(),
+                RoleId = (int)cmbRole.SelectedValue,
+                Avatar = string.Empty
+            };
+
+            try
+            {
                 if (_userService.CreateUser(newUser))
                 {
                     MessageBox.Show("User created successfully!", "Success",
@@ -56,32 +130,26 @@ namespace WPF
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private bool ValidateInput()
+        private void LoadRoles()
         {
-            if (string.IsNullOrWhiteSpace(txtUsername.Text))
-            {
-                MessageBox.Show("Username is required.", "Validation Error",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
+            var roles = _roleService.GetAllRoles();
+            cmbRole.ItemsSource = roles;
+            cmbRole.DisplayMemberPath = "RoleName";
+            cmbRole.SelectedValuePath = "RoleId";
 
-            if (string.IsNullOrWhiteSpace(txtPassword.Password))
+            // Set default role to User (RoleId = 2)
+            var defaultRole = roles.FirstOrDefault(r => r.RoleId == 2);
+            if (defaultRole != null)
             {
-                MessageBox.Show("Password is required.", "Validation Error",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
+                cmbRole.SelectedValue = defaultRole.RoleId;
             }
-
-            if (cmbRole.SelectedValue == null)
-            {
-                MessageBox.Show("Please select a role.", "Validation Error",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            return true;
         }
 
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)

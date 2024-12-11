@@ -28,6 +28,21 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#E0E0E0"/>
+                    <Setter Property="Foreground" Value="#A0A0A0"/>
+                    <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                    <Setter Property="Opacity" Value="0.7"/>
+                    <Setter Property="Cursor" Value="No"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ValidationTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
     </Window.Resources>
 
@@ -48,64 +63,77 @@
         <StackPanel Grid.Row="1" Margin="0,20">
             <!-- Username -->
             <TextBlock Text="Username:" Foreground="Black" FontSize="14" FontWeight="SemiBold" Margin="0,5"/>
-            <TextBox x:Name="txtUsername" Height="40" FontSize="14" Padding="10" BorderBrush="Gray" 
-                     Background="White" BorderThickness="1" Margin="0,5">
+            <TextBox x:Name="txtUsername" Height="40" FontSize="14" Padding="10" 
+                 TextChanged="TextBox_TextChanged">
                 <TextBox.Effect>
                     <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
                 </TextBox.Effect>
             </TextBox>
+            <TextBlock x:Name="usernameValidation" Style="{StaticResource ValidationTextStyle}" 
+                   Visibility="Collapsed" Text="Username is required"/>
 
             <!-- Password -->
             <TextBlock Text="Password:" Foreground="Black" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,5"/>
-            <PasswordBox x:Name="txtPassword" Height="40" FontSize="14" Padding="10" BorderBrush="Gray" 
-                         Background="White" BorderThickness="1" Margin="0,5">
+            <PasswordBox x:Name="txtPassword" Height="40" FontSize="14" Padding="10"
+                     PasswordChanged="Password_PasswordChanged">
                 <PasswordBox.Effect>
                     <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
                 </PasswordBox.Effect>
             </PasswordBox>
+            <TextBlock x:Name="passwordValidation" Style="{StaticResource ValidationTextStyle}" 
+                   Visibility="Collapsed" Text="Password is required"/>
 
             <!-- Email -->
             <TextBlock Text="Email:" Foreground="Black" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,5"/>
-            <TextBox x:Name="txtEmail" Height="40" FontSize="14" Padding="10" BorderBrush="Gray" 
-                     Background="White" BorderThickness="1" Margin="0,5">
+            <TextBox x:Name="txtEmail" Height="40" FontSize="14" Padding="10"
+                 TextChanged="TextBox_TextChanged">
                 <TextBox.Effect>
                     <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
                 </TextBox.Effect>
             </TextBox>
+            <TextBlock x:Name="emailValidation" Style="{StaticResource ValidationTextStyle}" 
+                   Visibility="Collapsed" Text="Invalid email format"/>
 
             <!-- Phone -->
             <TextBlock Text="Phone:" Foreground="Black" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,5"/>
-            <TextBox x:Name="txtPhone" Height="40" FontSize="14" Padding="10" BorderBrush="Gray" 
-                     Background="White" BorderThickness="1" Margin="0,5">
+            <TextBox x:Name="txtPhone" Height="40" FontSize="14" Padding="10"
+                 TextChanged="TextBox_TextChanged" PreviewTextInput="Phone_PreviewTextInput">
                 <TextBox.Effect>
                     <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
                 </TextBox.Effect>
             </TextBox>
+            <TextBlock x:Name="phoneValidation" Style="{StaticResource ValidationTextStyle}" 
+                   Visibility="Collapsed" Text="Phone must be exactly 10 digits"/>
 
             <!-- Address -->
             <TextBlock Text="Address:" Foreground="Black" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,5"/>
-            <TextBox x:Name="txtAddress" Height="40" FontSize="14" Padding="10" BorderBrush="Gray" 
-                     Background="White" BorderThickness="1" Margin="0,5">
+            <TextBox x:Name="txtAddress" Height="40" FontSize="14" Padding="10"
+                 TextChanged="TextBox_TextChanged">
                 <TextBox.Effect>
                     <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
                 </TextBox.Effect>
             </TextBox>
+            <TextBlock x:Name="addressValidation" Style="{StaticResource ValidationTextStyle}" 
+                   Visibility="Collapsed" Text="Address is required"/>
 
             <!-- Role -->
             <TextBlock Text="Role:" Foreground="Black" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,5"/>
-            <ComboBox x:Name="cmbRole" Height="40" FontSize="14" Padding="10" BorderBrush="Gray" 
-                         Background="White" BorderThickness="1" Margin="0,5">
+            <ComboBox x:Name="cmbRole" Height="40" FontSize="14" Padding="10" 
+                  SelectionChanged="ComboBox_SelectionChanged">
                 <ComboBox.Effect>
                     <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
                 </ComboBox.Effect>
             </ComboBox>
+            <TextBlock x:Name="roleValidation" Style="{StaticResource ValidationTextStyle}" 
+                   Visibility="Collapsed" Text="Please select a role"/>
         </StackPanel>
 
         <!-- Buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Create" Style="{StaticResource RoundedButtonStyle}" Click="Button_Create_Click"/>
-            <Button Content="Cancel" Style="{StaticResource RoundedButtonStyle}" Background="LightGray" 
-                    Foreground="Black" BorderBrush="Black" Click="Button_Cancel_Click"/>
+            <Button x:Name="btnCreate" Content="Create" Style="{StaticResource RoundedButtonStyle}" 
+            Click="Button_Create_Click" IsEnabled="False"/>
+            <Button Content="Cancel" Style="{StaticResource RoundedButtonStyle}" Background="White" 
+            Foreground="Black" BorderBrush="Black" Click="Button_Cancel_Click"/>
         </StackPanel>
     </Grid>
 </Window>

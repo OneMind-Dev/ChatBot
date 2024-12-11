@@ -30,6 +30,15 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#E0E0E0"/>
+                    <Setter Property="Foreground" Value="#A0A0A0"/>
+                    <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                    <Setter Property="Opacity" Value="0.7"/>
+                    <Setter Property="Cursor" Value="No"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="InputFieldStyle" TargetType="TextBox">
@@ -41,6 +50,12 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="0,5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="ValidationTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
         </Style>
     </Window.Resources>
 
@@ -83,16 +98,28 @@
 
             <!-- Input Fields -->
             <TextBlock Text="Username:" Margin="0,5"/>
-            <TextBox x:Name="txtUsername" Style="{StaticResource InputFieldStyle}"/>
+            <TextBox x:Name="txtUsername" Style="{StaticResource InputFieldStyle}" 
+         TextChanged="TextBox_TextChanged"/>
+            <TextBlock x:Name="usernameValidation" Style="{StaticResource ValidationTextStyle}" 
+         Visibility="Collapsed" Text="Username is required"/>
 
             <TextBlock Text="Email:" Margin="0,5"/>
-            <TextBox x:Name="txtEmail" Style="{StaticResource InputFieldStyle}"/>
+            <TextBox x:Name="txtEmail" Style="{StaticResource InputFieldStyle}"
+         TextChanged="TextBox_TextChanged"/>
+            <TextBlock x:Name="emailValidation" Style="{StaticResource ValidationTextStyle}" 
+         Visibility="Collapsed" Text="Invalid email format"/>
 
             <TextBlock Text="Phone:" Margin="0,5"/>
-            <TextBox x:Name="txtPhone" Style="{StaticResource InputFieldStyle}"/>
+            <TextBox x:Name="txtPhone" Style="{StaticResource InputFieldStyle}"
+         TextChanged="TextBox_TextChanged" PreviewTextInput="Phone_PreviewTextInput"/>
+            <TextBlock x:Name="phoneValidation" Style="{StaticResource ValidationTextStyle}" 
+         Visibility="Collapsed" Text="Phone must be exactly 10 digits"/>
 
             <TextBlock Text="Address:" Margin="0,5"/>
-            <TextBox x:Name="txtAddress" Style="{StaticResource InputFieldStyle}"/>
+            <TextBox x:Name="txtAddress" Style="{StaticResource InputFieldStyle}"
+         TextChanged="TextBox_TextChanged"/>
+            <TextBlock x:Name="addressValidation" Style="{StaticResource ValidationTextStyle}" 
+         Visibility="Collapsed" Text="Address is required"/>
 
             <TextBlock Text="Role:" Margin="0,5"/>
             <ComboBox x:Name="cmbRole" Height="40" Margin="0,5" SelectionChanged="cmbRole_SelectionChanged"/>
@@ -100,7 +127,7 @@
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
                 <Button Content="Create" Style="{StaticResource RoundedButtonStyle}" Click="Button_Create_Click"/>
-                <Button Content="Update" Style="{StaticResource RoundedButtonStyle}" Click="Button_Update_Click"/>
+                <Button x:Name="btnUpdate" Content="Update" Style="{StaticResource RoundedButtonStyle}" Click="Button_Update_Click"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
