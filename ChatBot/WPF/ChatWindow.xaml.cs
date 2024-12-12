@@ -104,7 +104,7 @@ namespace WPF
             // dùng dialog để dừng luồng và có thể kiểm tra
             UserProfileWindow userProfileWindow = new UserProfileWindow(LoggedUser);
             userProfileWindow.ShowDialog();
-            if(userProfileWindow.LoggedUser == null)
+            if (userProfileWindow.LoggedUser == null)
             {
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();

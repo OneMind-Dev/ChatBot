@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Icons\add-icon.png" />
     <None Remove="Icons\add.png" />
+    <None Remove="Icons\favicon.ico" />
     <None Remove="Icons\message.png" />
   </ItemGroup>
 
@@ -25,8 +26,12 @@
   <ItemGroup>
     <Resource Include="Icons\add-icon.png" />
     <Resource Include="Icons\add.png" />
+    <Resource Include="Icons\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Icons\message.png" />
     <Resource Include="Themes\MessageBox.xaml" />
+    <Resource Include="Icons\add-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
